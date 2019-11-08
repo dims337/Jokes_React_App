@@ -19,6 +19,8 @@ class JokeList extends Component{
     }
 
     async getJokes(){
+
+        try{
         let jokes=[];
 
         while(jokes.length<10){
@@ -31,6 +33,10 @@ class JokeList extends Component{
         }),
         ()=>window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
         )
+    }catch(e){
+        alert(e);
+        this.setState({isLoading:false})
+    }
        
     }
 
@@ -61,9 +67,10 @@ class JokeList extends Component{
                 </div>
             )
         }
+        let sortedJokes = this.state.jokes.sort((a,b)=>b.vote - a.vote)
 
 
-        let jokeList = this.state.jokes.map(j=>(
+        let jokeList = sortedJokes.map(j=>(
             <ul>
             
                     <Joke 
